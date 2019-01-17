@@ -1,0 +1,33 @@
+{
+  "name": "fsechatroom",
+  "version": "1.0.0",
+  "description": "A real-time chat application proof of concept to enroll in the FSE Class at CMU",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryanlamtoo/FSEChatroom.git"
+  },
+  "keywords": [
+    "Chat",
+    "SocketIO",
+    "Real-Time"
+  ],
+  "author": "Bryan Lamtoo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bryanlamtoo/FSEChatroom/issues"
+  },
+  "homepage": "https://github.com/bryanlamtoo/FSEChatroom#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
