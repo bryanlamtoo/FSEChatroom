@@ -9,16 +9,6 @@ const rootDir = require('./util/path');
 //Import the routes for this aplication
 const routes = require('./routes/routes');
 
-// mongoose.connect('http://localhost/chatdb'); //opens a connection to the database
-
-// //set up notification if we have successfully connected
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'Connnection Error:'));
-// db.once('open', ()=>{
-//     console.log('Connection opened!');
-// });
-
-
 //Applicaiton set up
 const app = express();
 
@@ -48,29 +38,53 @@ app.use((req, res, next) => {
 /**
  * ********************************** END MIDDLEWARE DECLARATIONS **********************************
  */
-const server = app.listen(4000, function () {
-    console.log('Listening to requests on port 4000')
-});
 
+let server = null;
+
+//Set up the database connection
+mongoose.connect('mongodb://localhost:27017/chatdb', {useNewUrlParser: true})
+    .then(result => {
+
+        server = app.listen(4000, function () {
+            console.log('Listening to requests on port 4000')
+        });
+
+        setUpSocket(server);
+
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
+//opens a connection to the database
+
+
+function setUpSocket(server) {
+    if (server != null) {
 
 //Socket set-up
-const io = socket(server);
+        const io = socket(server);
 
 //Listen for connections from clients
-io.on('connection', function (socket) {
-    console.log('Made a socket connection');
+        io.on('connection', function (socket) {
+            console.log('Made a socket connection');
 
-    /* Listen for client chat messages. This is the socket for the particular client that sent the message
-    *  The function receives the data coming in from the client and then the server sends out the message to all other clienst
-    */
-    socket.on('chat', function (data) {
+            /* Listen for client chat messages. This is the socket for the particular client that sent the message
+            *  The function receives the data coming in from the client and then the server sends out the message to all other clienst
+            */
+            socket.on('chat', function (data) {
 
-        // Send the data out to all sockets on the server i.e client connections waiting for communicartion
-        io.sockets.emit('chat', data);
-    });
+                // Send the data out to all sockets on the server i.e client connections waiting for communicartion
+                io.sockets.emit('chat', data);
+            });
 
-    socket.on('typing', function (data) {
-        //Broadcasts the message to every other client except this particular one
-        socket.broadcast.emit('typing', data)
-    });
-});
+            socket.on('typing', function (data) {
+                //Broadcasts the message to every other client except this particular one
+                socket.broadcast.emit('typing', data)
+            });
+        });
+
+    }else
+        console.log('Server is null')
+}
+
