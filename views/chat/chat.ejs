@@ -1,0 +1,100 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+      rel="stylesheet">
+
+<link rel="stylesheet" href="/css/chat.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="text-center mb-4">
+        <img class="mb-4" src="../images/logo.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Fse ChatRoom</h1>
+    </div>
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    <div class="recent_heading">
+                        <h4>Chat Members</h4>
+                    </div>
+                    <div class="srch_bar">
+                        <div class="stylish-input-group">
+                            <input type="text" class="search-bar" placeholder="Search">
+                            <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </span></div>
+                    </div>
+                </div>
+                <% if (all_users.length > 0) { %>
+                    <div class="inbox_chat">
+                        <% for (let user of all_users) { %>
+                            <div class="chat_list active_chat">
+
+
+                                <div class="chat_people">
+                                    <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                               alt="sunil"></div>
+                                    <div class="chat_ib">
+                                        <h5> <%= user.name %> <span class="chat_date"></span></h5>
+                                        <p> @<%= user.username %></p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        <% } %>
+
+                    </div>
+                <% } else { %>
+                    <h1>No Users Found!</h1>
+                <% } %>
+
+            </div>
+            <div class="mesgs">
+                <div id="msg_history" class="msg_history">
+                    <div class="incoming_msg">
+                        <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                           alt="sunil"></div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>Test which is a new approach to have all
+                                    solutions</p>
+                                <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                        </div>
+                    </div>
+
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Test which is a new approach to have all
+                                solutions</p>
+                            <span class="time_date"> 11:01 AM    |    June 9</span></div>
+                    </div>
+
+
+                </div>
+                <span id="feedback" class="time_date"> </span>
+                <input hidden id="currentUser" value="<%= curr_user._id %>">
+                <input hidden id="currentUserName" value="<%= curr_user.name %>">
+                <div class="type_msg">
+                    <div class="input_msg_write">
+                        <input type="text" id="message" class="write_msg" placeholder="Type a message"/>
+                        <button id="send" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o"
+                                                                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mb-4">
+        <a style=" width: 300px;" class="btn btn-primary " href="/auth/logout">Log out</a>
+    </div>
+</div>
+
+<%- include('../includes/footer.ejs') %>
